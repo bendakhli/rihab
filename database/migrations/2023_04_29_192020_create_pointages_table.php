@@ -13,11 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('conges', function (Blueprint $table) {
+        Schema::create('pointages', function (Blueprint $table) {
             $table->id();
-            
+            $table->integer('employees_id')->unsigned();
+            $table->foreign('employees_id')->references('id')->on('employees');
+            $table->boolean('type');
+            $table->decimal('long', 10, 7);
+            $table->decimal('lat', 10, 7)->default(0);
             $table->timestamps();
         });
+
     }
 
     /**
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conges');
+        Schema::dropIfExists('pointages');
     }
 };

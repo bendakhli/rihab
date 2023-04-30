@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class pointage extends Model
+class Pointage extends Model
 {
     use HasFactory;
-     protected $fillable=['heur_depart','heur_arriver','empoiloyé_id'];
+    protected $fillable=['id','type','employees_id','lat','long','employee_id'];
 
-     public function Users(){
-        return $this->belongsto(Users::class);
-     }
-     
+    public $table='pointages';
+
+         public function Employee(){
+            return $this->belongsto('\App\Pointage');
+         }
 }
