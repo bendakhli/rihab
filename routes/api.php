@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
  use App\Http\Controllers\AuthController;
  use App\Http\Controllers\EmployeeController;
  use App\Http\Controllers\PointageController;
+ use App\Http\Controllers\UserController;
+ use App\Http\Controllers\DemandecongeController;
 use App\Http\Controllers;
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +28,14 @@ use App\Http\Controllers;
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/employees', [EmployeeController ::class, 'store']);
         Route::get('/employees', [EmployeeController ::class, 'index']);
-        Route::get('/employees{id}', [EmployeeController ::class, 'show']);
-        Route::patch('/employees{id}', [EmployeeController ::class, 'update']);
-        Route::patch('/employees{id}', [EmployeeController ::class, 'delete']);
+        Route::get('/employees/{id}', [EmployeeController ::class, 'show']);
+        Route::patch('/employees/{id}', [EmployeeController ::class, 'update']);
+        Route::delete('/employees/{id}', [EmployeeController ::class, 'delete']);
 
         Route::post('/pointages', [PointageController ::class, 'store']);
+        Route::get('/pointages', [PointageController ::class, 'index']);
+        Route::get('/pointages/{id}', [PointageController ::class, 'show']);
+        Route::patch('/pointages/{id}', [PointageController ::class, 'update']);
+        Route::delete('/pointages/{id}', [PointageController ::class, 'delete']);
+
+        Route::post('/Demandeconge/{name}/{lastname}', [DemandecongeController ::class, 'store']);

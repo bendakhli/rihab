@@ -61,7 +61,11 @@ class PointageController extends Controller
 }
 public function update(Request $request,$id){
     $data = $request->validate([
-        'type'=>'boolean'
+        'employees_id'=>'required',
+        'lat'=>'numeric',
+        'long'=>'numeric',
+        'type'=>'boolean',
+        
     ]);
     $pointage= Pointage::find($id);
        if($pointage){
@@ -76,6 +80,28 @@ public function update(Request $request,$id){
         return response()->json([
             'status'=>false,
             'message'=>'pointage not found.',
+            'data'=> null,
+          ], 404);
+    }
+     
+    
+} public function delete(Request $request,$id){
+       
+    $pointage = Pointage::find($id);
+       if($pointage){
+        $pointage->delete;
+        return response()->json([
+            'status'=>true,
+            'message'=>'empoloye found.',
+            'data'=> $pointage,
+          ]);
+
+    }
+    else{
+        
+        return response()->json([
+            'status'=>false,
+            'message'=>'empoloye not found.',
             'data'=> null,
           ], 404);
     }

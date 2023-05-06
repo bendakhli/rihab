@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+
 
 class EmployeeController extends Controller
 {
-    public function store(request $request){
+
+    public function store(request $request, user $user  ){
        
         $validator =Validator::make($request->all(),[
             'name'=>'required|string|max:100' ,
@@ -26,17 +29,18 @@ class EmployeeController extends Controller
               'errors' => $validator->errors()
           ], 422);
       }
-
-      $employee = Employee::create([
-      'name'=>$request->name,
-      'lastname'=>$request->lastname,
-       'post'=>$request->post,
-       'department'=>$request->department
-    ]);
+     
+      $employee= new Employee();
+        $employee->user_id= $user->id;
+        $employee->name= $request->name;
+        $employee->lastname=$request->lastname;
+         $employee->post= $request->post;
+        $employee->department= $request->department;
+        $employee->save();
     
     return response()->json([
         'message'=>'registration successfuly',
-        'data'=>$employee
+        'data'=>$employees
        ],200);
     }
     public function index(Request $request){

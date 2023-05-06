@@ -13,6 +13,6 @@ class Pointage extends Model
     public $table='pointages';
 
          public function Employee(){
-            return $this->belongsto('\App\Pointage');
+            return $this->belongsto('\App\Employee');
          }
 }
