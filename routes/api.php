@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
  use App\Http\Controllers\EmployeeController;
  use App\Http\Controllers\PointageController;
  use App\Http\Controllers\UserController;
- use App\Http\Controllers\DemandecongeController;
+ use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers;
 /*
 |--------------------------------------------------------------------------
@@ -38,4 +38,8 @@ use App\Http\Controllers;
         Route::patch('/pointages/{id}', [PointageController ::class, 'update']);
         Route::delete('/pointages/{id}', [PointageController ::class, 'delete']);
 
-        Route::post('/Demandeconge/{name}/{lastname}', [DemandecongeController ::class, 'store']);
+        Route::post('/leave-requests', [LeaveRequestController::class, 'store']);
+        Route::patch('/leave-requests/{id}/accept', [LeaveRequestController::class, 'accept']);
+        Route::patch('/leave-requests/{id}/deny', [LeaveRequestController::class, 'deny']);
+        Route::get('/employees/{id}/leave-requests', [LeaveRequestController::class, 'getByEmployee']);
+        Route::get('/leave-requests', [LeaveRequestController::class, 'getAll']);

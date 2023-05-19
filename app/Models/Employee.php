@@ -18,7 +18,7 @@ class Employee extends Model
    public function user(){
     return $this->hasOne('App\Models\User');
  }
- public function Demandeconge(){
-    return $this->hasMany('App\Models\Demandeconge');
+ public function leaves(){
+    return $this->hasMany('App\Models\LeaveRequest');
    }
 }

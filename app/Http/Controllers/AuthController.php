@@ -26,9 +26,10 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
           return response()->json([
+               'status' => 405,
               'message' => 'validation fails',
               'errors' => $validator->errors()
-          ], 422);
+          ], 200);
       }
       $user = new User();
       $user->is_admin= $request->is_admin;
@@ -53,6 +54,7 @@ class AuthController extends Controller
     }
     
     return response()->json([
+        'status' => 200,
         'message'=>'registration successfuly',
         'data'=>$user
        ],200);
@@ -67,9 +69,10 @@ public function login(Request $request)
 
     if ($validator->fails()) {
         return response()->json([
+            'status' => 405,
             'message' => 'validation fails',
             'erreur' => $validator->errors(),
-        ], 400);
+        ], 200);
     }
 
     // Attempt to authenticate the user with the provided credentials
@@ -81,6 +84,7 @@ public function login(Request $request)
 
         // Authentication successful, return the authenticated user data and associated employee data
         return response()->json([
+            'status' => 200,
             'message' => 'Authentication successful',
             'data' => $user
             
@@ -88,8 +92,9 @@ public function login(Request $request)
     } else {
         // Authentication failed, return an error response
         return response()->json([
+            'status' => 406,
             'message' => 'Authentication failed',
             'erreur' => 'Invalid credentials',
-        ], 401);
+        ], 200);
     }
 }}

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('pointages', function (Blueprint $table) {
             $table->id();
-            $table->integer('employees_id')->unsigned();
+            $table->unsignedBigInteger('employees_id');
             $table->foreign('employees_id')->references('id')->on('employees');
             $table->boolean('type');
             $table->decimal('long', 10, 7);
