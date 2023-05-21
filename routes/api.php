@@ -43,3 +43,6 @@ use App\Http\Controllers;
         Route::patch('/leave-requests/{id}/deny', [LeaveRequestController::class, 'deny']);
         Route::get('/employees/{id}/leave-requests', [LeaveRequestController::class, 'getByEmployee']);
         Route::get('/leave-requests', [LeaveRequestController::class, 'getAll']);
+        Route::get('/leave-requests/employee/{employeeId}',[LeaveRequestController::class, 'getByEmployee']);
+        Route::delete('/leave-requests/{id}', [LeaveRequestController::class, 'delete']);
+        Route::get('/pointage/employee/{employeeId}/grouped', [PointageController::class, 'getPointageByEmployeeIdGroupedByDay']);

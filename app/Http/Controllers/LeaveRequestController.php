@@ -9,6 +9,37 @@ use Illuminate\Support\Facades\Validator;
 
 class LeaveRequestController extends Controller
 {
+
+
+    public function delete($id)
+{
+    try {
+        // Find the leave request
+        $leaveRequest = LeaveRequest::findOrFail($id);
+
+        // Delete the leave request
+        $leaveRequest->delete();
+
+        // Format the response
+        $response = [
+            'status' => 200,
+            'message' => 'Leave request deleted',
+            'data' => null,
+        ];
+
+        return response()->json($response, 200);
+    } catch (ModelNotFoundException $exception) {
+        // Leave request not found
+        $response = [
+            'status' => 404,
+            'message' => 'Leave request not found',
+            'data' => null,
+        ];
+
+        return response()->json($response, 200);
+    }
+}
+    
     public function store(Request $request)
     {
         // Validate the request data
@@ -85,22 +116,32 @@ class LeaveRequestController extends Controller
 
     public function getByEmployee($employeeId)
     {
-        // Find the employee
-        $employee = Employee::findOrFail($employeeId);
-
-        // Retrieve the leave requests for the employee
-        $leaveRequests = $employee->leaves;
-
-        // Format the response
-        $response = [
-            'status' => 200,
-            'message' => 'Success',
-            'data' => $leaveRequests,
-        ];
-
-        return response()->json($response, 200);
+        try {
+            // Find the employee
+            $employee = Employee::findOrFail($employeeId);
+    
+            // Retrieve the leave requests for the employee
+            $leaveRequests = $employee->leaves;
+    
+            // Format the response
+            $response = [
+                'status' => 200,
+                'message' => 'Success',
+                'data' => $leaveRequests,
+            ];
+    
+            return response()->json($response, 200);
+        } catch (ModelNotFoundException $exception) {
+            // Employee not found
+            $response = [
+                'status' => 404,
+                'message' => 'Employee not found',
+                'data' => null,
+            ];
+    
+            return response()->json($response, 200);
+        }
     }
-
     public function getAll()
     {
         // Retrieve all leave requests

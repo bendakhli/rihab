@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Pointage;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class PointageController extends Controller
 {
@@ -108,6 +109,37 @@ public function update(Request $request,$id){
     
 }
 
+public function getPointageByEmployeeIdGroupedByDay(Request $request, $employeeId)
+{
+    $pointages = Pointage::select(DB::raw('DATE(created_at) AS date'), 'employees_id', 'lat', 'long', 'type')
+        ->where('employees_id', $employeeId)
+        ->groupBy('date', 'employees_id', 'lat', 'long', 'type')
+        ->get();
+
+    $groupedPointages = $pointages->groupBy('date')->map(function ($group) {
+        return $group->map(function ($pointage) {
+            return [
+                'employees_id' => $pointage->employees_id,
+                'lat' => $pointage->lat,
+                'long' => $pointage->long,
+                'type' => $pointage->type,
+            ];
+        });
+    });
+
+    $result = $groupedPointages->map(function ($pointages, $date) {
+        return [
+            'date' => $date,
+            'list' => $pointages->values(),
+        ];
+    })->values();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Pointage retrieved.',
+        'data' => $result,
+    ]);
+}
     }
 
    

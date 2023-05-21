@@ -63,15 +63,15 @@ class AuthController extends Controller
 public function login(Request $request)
 {
     $validator = Validator::make($request->all(), [
-        'email'=>'required|email',
-        'password'=>'required|min:6|max:100', 
+        'email' => 'required|email',
+        'password' => 'required|min:6|max:100',
     ]);
 
     if ($validator->fails()) {
         return response()->json([
             'status' => 405,
-            'message' => 'validation fails',
-            'erreur' => $validator->errors(),
+            'message' => 'Validation fails',
+            'errors' => $validator->errors(),
         ], 200);
     }
 
@@ -86,8 +86,12 @@ public function login(Request $request)
         return response()->json([
             'status' => 200,
             'message' => 'Authentication successful',
-            'data' => $user
-            
+            'data' => [
+                'id' => $user->id,
+                'is_admin' => $user->is_admin == 1 ? true : false, // Convert 0 or 1 to boolean
+                'email' => $user->email,
+                'employee' => $employee,
+            ],
         ], 200);
     } else {
         // Authentication failed, return an error response
@@ -97,4 +101,9 @@ public function login(Request $request)
             'erreur' => 'Invalid credentials',
         ], 200);
     }
-}}
+}
+
+
+
+
+}
